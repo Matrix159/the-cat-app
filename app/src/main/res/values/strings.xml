@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">The Cat App</string>
+    <string name="image_of_cat_breed">Image of cat breed %1$s</string>
 </resources>

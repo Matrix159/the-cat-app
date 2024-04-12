@@ -16,5 +16,6 @@ dependencyResolutionManagement {
 rootProject.name = "The Cat App"
 includeBuild("build-logic")
 include(":app")
-include(":data")
-include(":domain")
+include(":core:data")
+include(":core:domain")
+include(":core:ui")
