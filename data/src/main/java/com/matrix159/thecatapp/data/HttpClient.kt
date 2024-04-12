@@ -20,7 +20,7 @@ import timber.log.Timber
 private const val TIME_OUT = 60 * 1000 // 2 minute request timeout
 
 @OptIn(ExperimentalSerializationApi::class)
-internal fun createHttpClient() = HttpClient {
+internal fun createCatApiClient(apiKey: String) = HttpClient {
 
     install(HttpTimeout) {
         requestTimeoutMillis = TIME_OUT.toLong()
@@ -51,6 +51,7 @@ internal fun createHttpClient() = HttpClient {
 
     install(DefaultRequest) {
         header(HttpHeaders.ContentType, ContentType.Application.Json)
+        header("x-api-key", apiKey)
     }
 
     install(HttpCache)

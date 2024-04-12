@@ -1,9 +1,10 @@
 package com.matrix159.thecatapp.data.di
 
+import com.matrix159.thecatapp.data.BuildConfig
 import com.matrix159.thecatapp.data.CatsApiRemoteDataSource
 import com.matrix159.thecatapp.data.CatsRemoteDataSource
 import com.matrix159.thecatapp.data.DefaultCatsRepository
-import com.matrix159.thecatapp.data.createHttpClient
+import com.matrix159.thecatapp.data.createCatApiClient
 import com.matrix159.thecatapp.domain.repository.CatsRepository
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,7 @@ internal object DataModule {
 
     @Provides
     @Singleton
-    internal fun provideHttpClient(): HttpClient = createHttpClient()
+    internal fun provideCatApiClient(): HttpClient = createCatApiClient(BuildConfig.CATS_API_KEY)
 
     @Provides
     @Singleton

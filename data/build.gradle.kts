@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("android-library-convention")
     id("hilt-convention")
@@ -6,6 +8,12 @@ plugins {
 
 android {
     namespace = "com.matrix159.thecatapp.data"
+
+    defaultConfig {
+        val properties = Properties()
+        properties.load(project.rootProject.file("secrets.properties").inputStream())
+        buildConfigField("String", "CATS_API_KEY", properties.getProperty("CATS_API_KEY"))
+    }
 }
 
 dependencies {
