@@ -40,14 +40,9 @@ dependencies {
   implementation(libs.ui)
   implementation(libs.ui.graphics)
   implementation(libs.ui.tooling.preview)
-//  // date time
-//  implementation(libs.kotlinx.datetime)
   // Logging
   implementation(libs.timber)
-
   implementation(libs.coil)
-
-//  implementation(libs.androidx.material3.windowSizeClass)
 
   testImplementation(libs.junit)
   testImplementation(libs.kotlinx.coroutines.test)
@@ -55,7 +50,7 @@ dependencies {
   androidTestImplementation(libs.androidx.test.ext.junit)
   androidTestImplementation(libs.espresso.core)
   androidTestImplementation(platform(libs.compose.bom))
-//  androidTestImplementation(libs.ui.test.junit4)
+  androidTestImplementation(libs.ui.test.junit4)
   androidTestImplementation(kotlin("test"))
   debugImplementation(libs.ui.tooling)
   debugImplementation(libs.ui.test.manifest)

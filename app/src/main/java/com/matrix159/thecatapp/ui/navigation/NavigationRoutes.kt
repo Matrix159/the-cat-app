@@ -12,10 +12,10 @@ sealed interface NavigationRoutes : Route {
   }
 
   data object CatDetailsScreen : NavigationRoutes {
-    const val CAT_ID = "catId"
+    const val BREED_ID = "breedId"
     override val route =
-      "cat_details/{$CAT_ID}"
+      "cat_details/{$BREED_ID}"
 
-    fun generatePath(catId: Int) = "cat_details/${catId}"
+    fun generatePath(breedId: String) = "cat_details/${breedId}"
   }
 }

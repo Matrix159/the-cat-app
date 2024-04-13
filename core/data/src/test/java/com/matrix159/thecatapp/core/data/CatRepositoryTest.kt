@@ -1,15 +1,18 @@
-package com.matrix159.thecatapp.core
+package com.matrix159.thecatapp.core.data
 
-import com.matrix159.thecatapp.core.data.DefaultCatsRepository
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRemoteDataSource
+import com.matrix159.thecatapp.core.domain.Result
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-import com.matrix159.thecatapp.core.domain.Result
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class CatRepositoryTest {
 
   private val fakeCatsRemoteDataSource = FakeCatsRemoteDataSource()
-  private val catRepository = DefaultCatsRepository(fakeCatsRemoteDataSource)
+  private val catRepository =
+    DefaultCatsRepository(fakeCatsRemoteDataSource, UnconfinedTestDispatcher())
 
   @Test
   fun `getBreeds returns expected breeds`() = runTest {

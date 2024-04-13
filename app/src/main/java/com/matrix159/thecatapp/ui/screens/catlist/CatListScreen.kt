@@ -2,6 +2,7 @@ package com.matrix159.thecatapp.ui.screens.catlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,62 +28,83 @@ import coil.compose.AsyncImage
 import com.matrix159.thecatapp.R
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
+import com.matrix159.thecatapp.core.ui.theme.composable.LoadingIndicator
 
 @Composable
 fun CatListScreen(
+  catBreedSelected: (Breed) -> Unit,
   modifier: Modifier = Modifier,
   viewModel: CatListViewModel = hiltViewModel(),
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-  Column(modifier = modifier) {
-    when (val state = uiState) {
-      is CatListUiState.Success -> {
-        CatListScreen(
-          state = state,
-          modifier = Modifier.fillMaxWidth()
-        )
-      }
 
-      is CatListUiState.Error -> {
-        Text(stringResource(R.string.error))
-      }
+    Column(
+      horizontalAlignment = Alignment.CenterHorizontally,
+      modifier = modifier.padding(dimensionResource(R.dimen.m_padding))
+    ) {
+      when (val state = uiState) {
+        is CatListUiState.Success -> {
+          CatListScreen(
+            state = state,
+            catBreedSelected = catBreedSelected,
+            modifier = Modifier.fillMaxWidth()
+          )
+        }
 
-      is CatListUiState.Loading -> {
-        Text(stringResource(R.string.loading))
+        is CatListUiState.Error -> {
+          Text(stringResource(R.string.error))
+        }
+
+        is CatListUiState.Loading -> {
+          LoadingIndicator(modifier = Modifier.fillMaxSize())
+        }
       }
     }
-  }
 }
 
 @Composable
 private fun CatListScreen(
   state: CatListUiState.Success,
+  catBreedSelected: (Breed) -> Unit,
   modifier: Modifier = Modifier
 ) {
-  LazyColumn(
-    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.s_padding)),
+  Column(
+    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.m_padding)),
     modifier = modifier
   ) {
-    items(state.breeds) { breed ->
-      CatCard(
-        breed = breed,
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(dimensionResource(R.dimen.s_padding))
-      )
+    Text(
+      text = stringResource(R.string.cat_breeds),
+      style = MaterialTheme.typography.headlineLarge,
+    )
+    LazyColumn(
+      verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.s_padding)),
+    ) {
+      items(state.breeds) { breed ->
+        CatCard(
+          breed = breed,
+          onClick = catBreedSelected,
+          modifier = Modifier.fillMaxWidth()
+        )
+      }
     }
   }
+
 }
 
 @Composable
 private fun CatCard(
   breed: Breed,
+  onClick: (Breed) -> Unit = {},
   modifier: Modifier = Modifier
 ) {
-  Card(modifier = modifier) {
+  Card(
+    onClick = { onClick(breed) },
+    modifier = modifier
+  ) {
     Column {
       Text(
         text = breed.name,
+        style = MaterialTheme.typography.titleLarge,
         modifier = Modifier.padding(dimensionResource(R.dimen.m_padding))
       )
       AsyncImage(
@@ -91,9 +113,8 @@ private fun CatCard(
         placeholder = painterResource(id = R.drawable.error_fallback),
         error = painterResource(id = R.drawable.error_fallback),
         contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
-        contentScale = ContentScale.Crop,
+        contentScale = ContentScale.FillWidth,
         modifier = Modifier
-          .height(160.dp)
           .fillMaxWidth()
           .clip(shape = MaterialTheme.shapes.medium)
       )
@@ -101,7 +122,7 @@ private fun CatCard(
   }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CatListScreenPreview() {
   CatAppTheme {
@@ -111,20 +132,24 @@ private fun CatListScreenPreview() {
           Breed(
             id = "1",
             name = "Abyssinian",
+            description = "The Abyssinian is easy to care for, and a joy to have in your home.",
             image = null
           ),
           Breed(
             id = "2",
             name = "Aegean",
+            description = "The Aegean is a natural breed of domestic cat originating from the Cycladic Islands of Greece.",
             image = null
           ),
           Breed(
             id = "3",
             name = "American Bobtail",
+            description = "American Bobtails are loving and incredibly intelligent cats known for their wild appearance.",
             image = null
           ),
         )
-      )
+      ),
+      catBreedSelected = {},
     )
   }
 }

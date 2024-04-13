@@ -10,15 +10,16 @@ import androidx.navigation.navArgument
 import com.matrix159.thecatapp.ui.screens.catdetails.CatDetailsScreen
 
 fun NavGraphBuilder.catDetailsRoute(
-  navController: NavController,
+  navController: NavController
 ) {
   composable(
     NavigationRoutes.CatDetailsScreen.route,
-    arguments = listOf(navArgument(NavigationRoutes.CatDetailsScreen.CAT_ID) {
-      type = NavType.IntType
+    arguments = listOf(navArgument(NavigationRoutes.CatDetailsScreen.BREED_ID) {
+      type = NavType.StringType
     })
   ) {
     CatDetailsScreen(
+      navigateBack = navController::popBackStack,
       modifier = Modifier.fillMaxSize()
     )
   }

@@ -3,7 +3,6 @@ package com.matrix159.thecatapp.core.data.model
 import com.matrix159.thecatapp.core.domain.model.Breed
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNames
 
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
@@ -21,7 +20,7 @@ data class ApiBreed(
 //  val countryCode: String,
 //  @JsonNames("country_codes")
 //  val countryCodes: String,
-//  val description: String,
+  val description: String,
 //  @JsonNames("dog_friendly")
 //  val dogFriendly: Int,
 //  @JsonNames("energy_level")
@@ -75,7 +74,7 @@ data class ApiBreed(
 //      childFriendly = childFriendly,
 //      countryCode = countryCode,
 //      countryCodes = countryCodes,
-//      description = description,
+      description = description,
 //      dogFriendly = dogFriendly,
 //      energyLevel = energyLevel,
 //      experimental = experimental,

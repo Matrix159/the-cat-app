@@ -18,4 +18,16 @@ internal class DefaultCatsRepository(
       Result.Error(e)
     }
   }
+
+  override suspend fun getBreedById(breedId: String): Result<Breed> = withContext(dispatcher) {
+    return@withContext try {
+      // Using the breeds list from the remote data source to get the breed by id
+      // as the detail endpoint doesn't include the image we need,
+      // ideally we wouldn't need to rely on this.
+      val breeds = catsRemoteDataSource.getBreeds()
+      Result.Success(breeds.first { it.id == breedId }.toBreed())
+    } catch (e: Exception) {
+      Result.Error(e)
+    }
+  }
 }

@@ -9,6 +9,7 @@ class FakeCatsRemoteDataSource: CatsRemoteDataSource {
     ApiBreed(
       id = "1",
       name = "Abyssinian",
+      description = "The Abyssinian is easy to care for, and a joy to have in your home.",
       image = ApiImage(
         id = "1",
         url = "https://example.com/image.jpg",
@@ -19,6 +20,7 @@ class FakeCatsRemoteDataSource: CatsRemoteDataSource {
     ApiBreed(
       id = "2",
       name = "Aegean",
+      description = "The Aegean is a natural breed of domestic cat originating from the Cycladic Islands of Greece.",
       image = ApiImage(
         id = "1",
         url = "https://example.com/image.jpg",
@@ -29,6 +31,7 @@ class FakeCatsRemoteDataSource: CatsRemoteDataSource {
     ApiBreed(
       id = "3",
       name = "American Bobtail",
+      description = "American Bobtails are loving and incredibly intelligent cats known for their wild appearance.",
       image = ApiImage(
         id = "1",
         url = "https://example.com/image.jpg",

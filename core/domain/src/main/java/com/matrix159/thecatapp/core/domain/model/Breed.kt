@@ -8,7 +8,7 @@ data class Breed(
 //  val childFriendly: Int,
 //  val countryCode: String,
 //  val countryCodes: String,
-//  val description: String,
+  val description: String,
 //  val dogFriendly: Int,
 //  val energyLevel: Int,
 //  val experimental: Int,
