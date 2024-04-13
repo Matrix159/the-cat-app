@@ -3,11 +3,15 @@ package com.matrix159.thecatapp.ui.screens.catlist
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.matrix159.thecatapp.core.domain.Result
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.repository.CatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,15 +20,22 @@ class CatListViewModel @Inject constructor(
   private val catsRepository: CatsRepository
 ) : ViewModel() {
 
-  var uiState by mutableStateOf<CatListUiState>(CatListUiState.Loading)
+  var _uiState by mutableStateOf<CatListUiState>(CatListUiState.Loading)
     private set
+
+  val uiState = snapshotFlow {
+    _uiState
+  }.stateIn(
+    viewModelScope,
+    started = SharingStarted.WhileSubscribed(5_000),
+    initialValue = CatListUiState.Loading
+  )
 
   init {
     viewModelScope.launch {
-      uiState = try {
-        CatListUiState.Success(catsRepository.getBreeds())
-      } catch (e: Exception) {
-        CatListUiState.Error
+      _uiState = when (val breedsRepoResult = catsRepository.getBreeds()) {
+        is Result.Success -> CatListUiState.Success(breedsRepoResult.data)
+        else -> CatListUiState.Error
       }
     }
   }

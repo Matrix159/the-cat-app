@@ -49,7 +49,7 @@ dependencies {
 
 //  implementation(libs.androidx.material3.windowSizeClass)
 
-//  testImplementation(libs.junit)
+  testImplementation(libs.junit)
   testImplementation(libs.kotlinx.coroutines.test)
   testImplementation(kotlin("test"))
   androidTestImplementation(libs.androidx.test.ext.junit)

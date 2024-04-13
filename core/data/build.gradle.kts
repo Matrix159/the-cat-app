@@ -23,4 +23,7 @@ dependencies {
   implementation(libs.ktor.serialization)
   implementation(libs.ktor.client.logging)
   implementation(libs.timber)
+
+  testImplementation(project(":core:domain"))
+  testImplementation(libs.junit)
 }
