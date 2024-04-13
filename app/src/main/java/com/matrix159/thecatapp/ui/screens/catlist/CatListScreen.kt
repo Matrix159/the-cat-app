@@ -11,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.matrix159.thecatapp.R
 import com.matrix159.thecatapp.core.domain.model.Breed
@@ -31,8 +33,9 @@ fun CatListScreen(
   modifier: Modifier = Modifier,
   viewModel: CatListViewModel = hiltViewModel(),
 ) {
+  val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   Column(modifier = modifier) {
-    when (val state = viewModel.uiState) {
+    when (val state = uiState) {
       is CatListUiState.Success -> {
         CatListScreen(
           state = state,
@@ -63,7 +66,9 @@ private fun CatListScreen(
     items(state.breeds) { breed ->
       CatCard(
         breed = breed,
-        modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.s_padding))
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(dimensionResource(R.dimen.s_padding))
       )
     }
   }

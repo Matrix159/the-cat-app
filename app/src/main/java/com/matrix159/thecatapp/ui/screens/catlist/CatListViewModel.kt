@@ -1,18 +1,19 @@
 package com.matrix159.thecatapp.ui.screens.catlist
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.matrix159.thecatapp.core.domain.Result
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.repository.CatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,25 +21,20 @@ class CatListViewModel @Inject constructor(
   private val catsRepository: CatsRepository
 ) : ViewModel() {
 
-  var _uiState by mutableStateOf<CatListUiState>(CatListUiState.Loading)
-    private set
+  private val breedsFlow: Flow<Result<List<Breed>>> = flow {
+    emit(catsRepository.getBreeds())
+  }
 
-  val uiState = snapshotFlow {
-    _uiState
+  val uiState = breedsFlow.map {
+    when (it) {
+      is Result.Success -> CatListUiState.Success(it.data)
+      else -> CatListUiState.Error
+    }
   }.stateIn(
     viewModelScope,
     started = SharingStarted.WhileSubscribed(5_000),
     initialValue = CatListUiState.Loading
   )
-
-  init {
-    viewModelScope.launch {
-      _uiState = when (val breedsRepoResult = catsRepository.getBreeds()) {
-        is Result.Success -> CatListUiState.Success(breedsRepoResult.data)
-        else -> CatListUiState.Error
-      }
-    }
-  }
 }
 
 sealed interface CatListUiState {
