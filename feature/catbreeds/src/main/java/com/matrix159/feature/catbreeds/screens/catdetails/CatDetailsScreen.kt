@@ -162,12 +162,14 @@ private fun StatRow(
       for (i in 1..value) {
         Icon(
           imageVector = Icons.Default.Star,
+          tint = MaterialTheme.colorScheme.primary,
           contentDescription = null
         )
       }
       for (i in value + 1 .. 5) {
         Icon(
           imageVector = Icons.TwoTone.Star,
+          tint = MaterialTheme.colorScheme.primary,
           contentDescription = null
         )
       }
