@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.matrix159.thecatapp.ui.navigation.NavigationRoutes
-import com.matrix159.thecatapp.ui.navigation.catDetailsRoute
-import com.matrix159.thecatapp.ui.navigation.catListRoute
+import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
+import com.matrix159.feature.catbreeds.screens.navigation.catDetailsRoute
+import com.matrix159.feature.catbreeds.screens.navigation.catListRoute
 
 @Composable
 fun CatApp(
@@ -18,10 +18,10 @@ fun CatApp(
   Surface(modifier = modifier) {
     NavHost(
       navController = navController,
-      startDestination = NavigationRoutes.CatListScreen.route,
+      startDestination = CatBreedNavigationRoutes.CatListScreen.route,
     ) {
       catListRoute(catBreedSelected = {
-        navController.navigate(NavigationRoutes.CatDetailsScreen.generatePath(it.id))
+        navController.navigate(CatBreedNavigationRoutes.CatDetailsScreen.generatePath(it.id))
       })
       catDetailsRoute(navController = navController)
     }

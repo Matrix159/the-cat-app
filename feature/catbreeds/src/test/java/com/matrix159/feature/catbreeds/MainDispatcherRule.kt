@@ -1,4 +1,4 @@
-package com.matrix159.thecatapp
+package com.matrix159.feature.catbreeds
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,4 +1,4 @@
-package com.matrix159.thecatapp.ui.screens.catdetails
+package com.matrix159.feature.catbreeds.screens.catdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,15 +24,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.matrix159.thecatapp.R
 import com.matrix159.thecatapp.core.domain.model.Breed
+import com.matrix159.thecatapp.core.ui.R
+import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
 import com.matrix159.thecatapp.core.ui.theme.composable.LoadingIndicator
-import com.matrix159.thecatapp.ui.screens.catlist.CatListUiState
 
 @Composable
 fun CatDetailsScreen(
@@ -104,24 +104,22 @@ private fun CatDetailsScreen(
   }
 }
 
-@Preview(showBackground = true)
+@CatAppPreviews
 @Composable
 private fun CatDetailsScreenPreview() {
   CatAppTheme {
-    CatDetailsScreen(
-      state = CatDetailsUiState.Success(
-        breed = CatListUiState.Success(
-          breeds = listOf(
-            Breed(
-              id = "alia",
-              image = null,
-              name = "Max Carroll",
-              description = "Max Carroll is a cat"
-            )
+    Surface {
+      CatDetailsScreen(
+        state = CatDetailsUiState.Success(
+          breed = Breed(
+            id = "1",
+            name = "Abyssinian",
+            description = "The Abyssinian is easy to care for, and a joy to have in your home.",
+            image = null
           )
-        ).breeds.first()
-      ),
-      modifier = Modifier.fillMaxSize()
-    )
+        ),
+        modifier = Modifier.fillMaxSize()
+      )
+    }
   }
 }

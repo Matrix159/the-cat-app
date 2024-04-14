@@ -1,17 +1,17 @@
-package com.matrix159.thecatapp.ui.navigation
+package com.matrix159.feature.catbreeds.screens.navigation
 
 
 interface Route {
   val route: String
 }
 
-sealed interface NavigationRoutes : Route {
+sealed interface CatBreedNavigationRoutes : Route {
 
-  data object CatListScreen : NavigationRoutes {
+  data object CatListScreen : CatBreedNavigationRoutes {
     override val route: String = "cat_list"
   }
 
-  data object CatDetailsScreen : NavigationRoutes {
+  data object CatDetailsScreen : CatBreedNavigationRoutes {
     const val BREED_ID = "breedId"
     override val route =
       "cat_details/{$BREED_ID}"

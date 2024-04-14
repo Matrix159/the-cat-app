@@ -1,10 +1,9 @@
-package com.matrix159.thecatapp
+package com.matrix159.feature.catbreeds
 
 import androidx.lifecycle.SavedStateHandle
+import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsUiState
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
-import com.matrix159.thecatapp.ui.navigation.NavigationRoutes
-import com.matrix159.thecatapp.ui.screens.catdetails.CatDetailsUiState
-import com.matrix159.thecatapp.ui.screens.catdetails.CatDetailsViewModel
+import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -25,12 +24,15 @@ internal class CatDetailsViewModelTest {
 
   private val fakeCatsRepository = FakeCatsRepository()
   private val breedId = fakeCatsRepository.breeds.first().id
-  private val savedStateHandle = SavedStateHandle(mapOf(NavigationRoutes.CatDetailsScreen.BREED_ID to breedId))
-  private lateinit var viewModel: CatDetailsViewModel
+  private val savedStateHandle = SavedStateHandle(mapOf(CatBreedNavigationRoutes.CatDetailsScreen.BREED_ID to breedId))
+  private lateinit var viewModel: com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel
 
   @Before
   fun setup() {
-    viewModel = CatDetailsViewModel(savedStateHandle, fakeCatsRepository)
+    viewModel = com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel(
+      savedStateHandle,
+      fakeCatsRepository
+    )
   }
 
   @Test

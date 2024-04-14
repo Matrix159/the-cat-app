@@ -1,4 +1,4 @@
-package com.matrix159.thecatapp.ui.screens.catdetails
+package com.matrix159.feature.catbreeds.screens.catdetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.matrix159.thecatapp.core.domain.Result
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.repository.CatsRepository
-import com.matrix159.thecatapp.ui.navigation.NavigationRoutes
+import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +22,7 @@ class CatDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
   private val breedId =
-    checkNotNull(savedStateHandle.get<String>(NavigationRoutes.CatDetailsScreen.BREED_ID))
+    checkNotNull(savedStateHandle.get<String>(CatBreedNavigationRoutes.CatDetailsScreen.BREED_ID))
 
   private val breedDetailsFlow: Flow<Result<Breed>> = flow {
     emit(catsRepository.getBreedById(breedId))

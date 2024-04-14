@@ -1,13 +1,12 @@
-package com.matrix159.thecatapp
+package com.matrix159.feature.catbreeds
 
+import com.matrix159.feature.catbreeds.screens.catlist.CatListUiState
+import com.matrix159.feature.catbreeds.screens.catlist.CatListViewModel
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
-import com.matrix159.thecatapp.ui.screens.catlist.CatListUiState
-import com.matrix159.thecatapp.ui.screens.catlist.CatListViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -24,7 +23,8 @@ internal class CatListViewModelTest {
 
   @Before
   fun setup() {
-    catListViewModel = CatListViewModel(fakeCatsRepository)
+    catListViewModel =
+      CatListViewModel(fakeCatsRepository)
   }
 
   @Test

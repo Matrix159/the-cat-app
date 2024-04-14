@@ -29,6 +29,7 @@ dependencies {
   implementation(project(":core:domain"))
   implementation(project(":core:data"))
   implementation(project(":core:ui"))
+  implementation(project(":feature:catbreeds"))
   implementation(libs.core.ktx)
   implementation(libs.lifecycle.runtime.ktx)
 
@@ -42,7 +43,7 @@ dependencies {
   implementation(libs.ui.tooling.preview)
   // Logging
   implementation(libs.timber)
-  implementation(libs.coil)
+
 
   testImplementation(libs.junit)
   testImplementation(libs.kotlinx.coroutines.test)
