@@ -9,7 +9,7 @@ Data is provided by: [The Cat API](https://thecatapi.com/)
 - View and search through a list of cat breeds.
 - View details of a cat breed, including a description and statistics like their child friendliness, dog friendliness, and energy levels.
 
-## Modules
+## 📦 Modules
 
 The repository is organized into the following modules:
 
@@ -33,7 +33,7 @@ The repository utilizes the following dependencies:
 - Jetpack ViewModels: For managing screen states.
 - Timber: For logging.
 
-## Setup & Running
+## 🏃 Setup & Running
 
 To run the application, follow these steps:
 
@@ -44,3 +44,10 @@ To run the application, follow these steps:
 CATS_API_KEY="api_key_here"
 ```
 4. Build and run the project on an Android emulator or device.
+
+## 🌄 Examples
+<p float="left">
+  <img src='https://github.com/Matrix159/the-cat-app/assets/5334090/ba94bf07-2bbf-40c0-8a32-86e8c6352a8e' width='300'>
+  <img src='https://github.com/Matrix159/the-cat-app/assets/5334090/2045a085-933b-429c-81aa-8080f1ab39c2' width='300'>
+</p>
+
