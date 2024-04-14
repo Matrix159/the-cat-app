@@ -1,5 +1,6 @@
 package com.matrix159.feature.catbreeds
 
+import androidx.lifecycle.SavedStateHandle
 import com.matrix159.feature.catbreeds.screens.catlist.CatListUiState
 import com.matrix159.feature.catbreeds.screens.catlist.CatListViewModel
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
@@ -18,13 +19,13 @@ internal class CatListViewModelTest {
   @get:Rule
   val mainDispatcherRule = MainDispatcherRule()
 
+  private val savedStateHandle = SavedStateHandle()
   private val fakeCatsRepository = FakeCatsRepository()
   private lateinit var catListViewModel: CatListViewModel
 
   @Before
   fun setup() {
-    catListViewModel =
-      CatListViewModel(fakeCatsRepository)
+    catListViewModel = CatListViewModel(savedStateHandle, fakeCatsRepository)
   }
 
   @Test
@@ -56,6 +57,36 @@ internal class CatListViewModelTest {
     val collectJob = launch(UnconfinedTestDispatcher()) { catListViewModel.uiState.collect() }
     val uiState = catListViewModel.uiState.value
     assert(uiState is CatListUiState.Error)
+    collectJob.cancel()
+  }
+
+  @Test
+  fun `UI State starts with empty search input`() = runTest {
+    val collectJob = launch(UnconfinedTestDispatcher()) { catListViewModel.uiState.collect() }
+    val uiState = catListViewModel.uiState.value
+    assert(uiState is CatListUiState.Success)
+    assert((uiState as CatListUiState.Success).searchInput.isEmpty())
+    collectJob.cancel()
+  }
+  @Test
+  fun `UI State has filled out search input`() = runTest {
+    val searchInput = "search"
+    catListViewModel.updateSearchInput(searchInput)
+    val collectJob = launch(UnconfinedTestDispatcher()) { catListViewModel.uiState.collect() }
+    val uiState = catListViewModel.uiState.value
+    assert(uiState is CatListUiState.Success)
+    assert((uiState as CatListUiState.Success).searchInput == searchInput)
+    collectJob.cancel()
+  }
+
+  @Test
+  fun `Search input filters down available breeds`() = runTest {
+    val searchInput = "search"
+    catListViewModel.updateSearchInput(searchInput)
+    val collectJob = launch(UnconfinedTestDispatcher()) { catListViewModel.uiState.collect() }
+    val uiState = catListViewModel.uiState.value
+    assert(uiState is CatListUiState.Success)
+    assert((uiState as CatListUiState.Success).breeds == fakeCatsRepository.breeds.filter { it.name.contains(searchInput, ignoreCase = true) })
     collectJob.cancel()
   }
 }

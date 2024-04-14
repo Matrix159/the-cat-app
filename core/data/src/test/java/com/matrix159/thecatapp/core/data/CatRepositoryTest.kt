@@ -28,4 +28,21 @@ internal class CatRepositoryTest {
     val result = catRepository.getBreeds()
     assert(result is Result.Error)
   }
+
+  @Test
+  fun `getBreedById returns expected breed`() = runTest {
+    val breedId = fakeCatsRemoteDataSource.breeds.first().id
+    var result = catRepository.getBreedById(breedId)
+    assert(result is Result.Success)
+    result = result as Result.Success
+    assert(result.data == fakeCatsRemoteDataSource.breeds.first { it.id == breedId }.toBreed())
+  }
+
+  @Test
+  fun `getBreedById returns error result`() = runTest {
+    fakeCatsRemoteDataSource.throwError = true
+    val breedId = fakeCatsRemoteDataSource.breeds.first().id
+    val result = catRepository.getBreedById(breedId)
+    assert(result is Result.Error)
+  }
 }

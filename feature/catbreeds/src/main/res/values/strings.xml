@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="search_by_breed">Search by breed</string>
+    <string name="child_friendly">👶 Child friendly</string>
+    <string name="cat_breeds">Cat Breeds</string>
+    <string name="image_of_cat_breed">Image of cat breed %1$s</string>
+    <string name="energy_level">⚡ Energy level</string>
+    <string name="dog_friendly">🐶 Dog friendly</string>
 </resources>

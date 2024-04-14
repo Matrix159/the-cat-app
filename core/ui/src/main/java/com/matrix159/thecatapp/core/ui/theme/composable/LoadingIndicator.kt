@@ -8,6 +8,10 @@ import androidx.compose.ui.Modifier
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
 
+/**
+ * A centered Loading indicator that displays a circular progress indicator.
+ * @param modifier Modifier that will be applied to the layout.
+ */
 @Composable
 fun LoadingIndicator(
   modifier: Modifier = Modifier

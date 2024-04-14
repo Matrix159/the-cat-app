@@ -16,10 +16,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import com.matrix159.thecatapp.core.domain.model.Breed
-import com.matrix159.thecatapp.core.ui.R
+import com.matrix159.thecatapp.core.ui.R as CommonR
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
+import com.matrix159.thecatapp.feature.catbreeds.R
 
+/**
+ * A Material3 card displaying a cat breed.
+ * @param breed The breed to display.
+ * @param modifier The modifier to apply to the card.
+ * @param onClick The action to perform when the card is clicked.
+ */
 @Composable
 fun CatCard(
   breed: Breed,
@@ -34,13 +41,13 @@ fun CatCard(
       Text(
         text = breed.name,
         style = MaterialTheme.typography.titleLarge,
-        modifier = Modifier.padding(dimensionResource(R.dimen.m_padding))
+        modifier = Modifier.padding(dimensionResource(CommonR.dimen.m_padding))
       )
       AsyncImage(
         model = breed.image?.url,
         alignment = Alignment.Center,
-        placeholder = painterResource(id = R.drawable.error_fallback),
-        error = painterResource(id = R.drawable.error_fallback),
+        placeholder = painterResource(id = CommonR.drawable.error_fallback),
+        error = painterResource(id = CommonR.drawable.error_fallback),
         contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
         contentScale = ContentScale.FillWidth,
         modifier = Modifier
@@ -61,6 +68,9 @@ fun CatCardPreview() {
         name = "Abyssinian",
         description = "The Abyssinian is easy to care for, and a joy to have in your home. They’re affectionate cats and love both people and other animals.",
         image = null,
+        childFriendly = 5,
+        dogFriendly = 5,
+        energyLevel = 5
       )
     )
   }

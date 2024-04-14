@@ -71,7 +71,7 @@ private fun CatListScreen(
     modifier = modifier
   ) {
     Text(
-      text = stringResource(CommonR.string.cat_breeds),
+      text = stringResource(R.string.cat_breeds),
       style = MaterialTheme.typography.headlineLarge,
     )
     OutlinedTextField(
@@ -108,18 +108,27 @@ private fun CatListScreenPreview() {
               id = "1",
               name = "Abyssinian",
               description = "The Abyssinian is easy to care for, and a joy to have in your home.",
+              childFriendly = 5,
+              dogFriendly = 5,
+              energyLevel = 5,
               image = null
             ),
             Breed(
               id = "2",
               name = "Aegean",
               description = "The Aegean is a natural breed of domestic cat originating from the Cycladic Islands of Greece.",
+              childFriendly = 5,
+              dogFriendly = 5,
+              energyLevel = 5,
               image = null
             ),
             Breed(
               id = "3",
               name = "American Bobtail",
               description = "American Bobtails are loving and incredibly intelligent cats known for their wild appearance.",
+              childFriendly = 5,
+              dogFriendly = 5,
+              energyLevel = 5,
               image = null
             ),
           )

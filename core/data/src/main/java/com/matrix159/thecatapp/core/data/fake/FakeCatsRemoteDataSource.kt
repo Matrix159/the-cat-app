@@ -4,12 +4,18 @@ import com.matrix159.thecatapp.core.data.CatsRemoteDataSource
 import com.matrix159.thecatapp.core.data.model.ApiBreed
 import com.matrix159.thecatapp.core.data.model.ApiImage
 
+/**
+ * Fake implementation of [CatsRemoteDataSource] for testing purposes.
+ */
 class FakeCatsRemoteDataSource: CatsRemoteDataSource {
-  val breeds = listOf(
+  internal val breeds = listOf(
     ApiBreed(
       id = "1",
       name = "Abyssinian",
       description = "The Abyssinian is easy to care for, and a joy to have in your home.",
+      childFriendly = 5,
+      dogFriendly = 5,
+      energyLevel = 5,
       image = ApiImage(
         id = "1",
         url = "https://example.com/image.jpg",
@@ -21,6 +27,9 @@ class FakeCatsRemoteDataSource: CatsRemoteDataSource {
       id = "2",
       name = "Aegean",
       description = "The Aegean is a natural breed of domestic cat originating from the Cycladic Islands of Greece.",
+      childFriendly = 5,
+      dogFriendly = 5,
+      energyLevel = 5,
       image = ApiImage(
         id = "1",
         url = "https://example.com/image.jpg",
@@ -32,6 +41,9 @@ class FakeCatsRemoteDataSource: CatsRemoteDataSource {
       id = "3",
       name = "American Bobtail",
       description = "American Bobtails are loving and incredibly intelligent cats known for their wild appearance.",
+      childFriendly = 5,
+      dogFriendly = 5,
+      energyLevel = 5,
       image = ApiImage(
         id = "1",
         url = "https://example.com/image.jpg",

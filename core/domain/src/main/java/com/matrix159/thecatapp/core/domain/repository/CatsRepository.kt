@@ -3,6 +3,9 @@ package com.matrix159.thecatapp.core.domain.repository
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.Result
 
+/**
+ * Repository for cat breeds.
+ */
 interface CatsRepository {
   /**
    * Get a list of cat breeds.

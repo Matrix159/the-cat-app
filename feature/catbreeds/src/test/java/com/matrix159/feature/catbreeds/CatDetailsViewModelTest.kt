@@ -2,6 +2,7 @@ package com.matrix159.feature.catbreeds
 
 import androidx.lifecycle.SavedStateHandle
 import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsUiState
+import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
 import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
 import junit.framework.TestCase.assertEquals
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import com.matrix159.thecatapp.core.domain.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.assertThrows
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class CatDetailsViewModelTest {
@@ -25,11 +27,11 @@ internal class CatDetailsViewModelTest {
   private val fakeCatsRepository = FakeCatsRepository()
   private val breedId = fakeCatsRepository.breeds.first().id
   private val savedStateHandle = SavedStateHandle(mapOf(CatBreedNavigationRoutes.CatDetailsScreen.BREED_ID to breedId))
-  private lateinit var viewModel: com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel
+  private lateinit var viewModel: CatDetailsViewModel
 
   @Before
   fun setup() {
-    viewModel = com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel(
+    viewModel = CatDetailsViewModel(
       savedStateHandle,
       fakeCatsRepository
     )
@@ -57,6 +59,14 @@ internal class CatDetailsViewModelTest {
     assertEquals(CatDetailsUiState.Error, actual)
 
     collectJob.cancel()
+  }
+
+  @Test
+  fun `Instantiating of CatDetailsViewModel throws error if missing breedId`() = runTest {
+    val savedStateHandle = SavedStateHandle()
+    assertThrows(IllegalStateException::class.java) {
+      CatDetailsViewModel(savedStateHandle, fakeCatsRepository)
+    }
   }
 
 }

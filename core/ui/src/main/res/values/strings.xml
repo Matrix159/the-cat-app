@@ -1,6 +1,4 @@
 <resources>
-    <string name="image_of_cat_breed">Image of cat breed %1$s</string>
     <string name="error">An error occurred</string>
     <string name="go_to_previous_screen">Go to previous screen</string>
-    <string name="cat_breeds">Cat Breeds</string>
 </resources>
