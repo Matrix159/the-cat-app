@@ -48,6 +48,6 @@ CATS_API_KEY="api_key_here"
 ## 🌄 Examples
 <p float="left">
   <img src='https://github.com/Matrix159/the-cat-app/assets/5334090/ba94bf07-2bbf-40c0-8a32-86e8c6352a8e' width='300'>
-  <img src='https://github.com/Matrix159/the-cat-app/assets/5334090/2045a085-933b-429c-81aa-8080f1ab39c2' width='300'>
+  <img src='https://github.com/Matrix159/the-cat-app/assets/5334090/cf714a33-d218-4663-ac06-cd300a068c60' width='300'>
 </p>
 
