@@ -1,12 +1,19 @@
 package com.matrix159.feature.catbreeds.screens.catlist
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -17,14 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.matrix159.thecatapp.core.domain.model.Breed
-import com.matrix159.thecatapp.core.ui.R as CommonR
-import com.matrix159.thecatapp.feature.catbreeds.R
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
+import com.matrix159.thecatapp.core.ui.theme.composable.ErrorIndicator
 import com.matrix159.thecatapp.core.ui.theme.composable.LoadingIndicator
+import com.matrix159.thecatapp.feature.catbreeds.R
+import com.matrix159.thecatapp.core.ui.R as CommonR
 
 @Composable
 fun CatListScreen(
@@ -42,14 +51,21 @@ fun CatListScreen(
       is CatListUiState.Success -> {
         CatListScreen(
           state = state,
+          refreshing = viewModel.refreshing,
           searchInputUpdated = viewModel::updateSearchInput,
           catBreedSelected = catBreedSelected,
+          refresh = viewModel::refresh,
           modifier = Modifier.fillMaxWidth()
         )
       }
 
       is CatListUiState.Error -> {
-        Text(stringResource(CommonR.string.error))
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+          ErrorIndicator()
+          Button(onClick = viewModel::refresh) {
+            Text(stringResource(R.string.retry))
+          }
+        }
       }
 
       is CatListUiState.Loading -> {
@@ -59,11 +75,14 @@ fun CatListScreen(
   }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CatListScreen(
   state: CatListUiState.Success,
+  refreshing: Boolean,
   searchInputUpdated: (String) -> Unit,
   catBreedSelected: (Breed) -> Unit,
+  refresh: () -> Unit,
   modifier: Modifier = Modifier
 ) {
   Column(
@@ -77,19 +96,32 @@ private fun CatListScreen(
     OutlinedTextField(
       value = state.searchInput,
       onValueChange = searchInputUpdated,
-      label = { Text(stringResource(R.string.search_by_breed))},
+      label = { Text(stringResource(R.string.search_by_breed)) },
+      keyboardOptions = KeyboardOptions.Default.copy(
+        imeAction = ImeAction.Done
+      ),
       modifier = Modifier.fillMaxWidth()
     )
-    LazyColumn(
-      verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonR.dimen.s_padding)),
-    ) {
-      items(state.breeds) { breed ->
-        CatCard(
-          breed = breed,
-          onClick = catBreedSelected,
-          modifier = Modifier.fillMaxWidth()
-        )
+    val pullRefreshState = rememberPullRefreshState(refreshing, refresh)
+
+    Box(Modifier.pullRefresh(pullRefreshState)) {
+      LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonR.dimen.s_padding)),
+      ) {
+        items(state.breeds) { breed ->
+          CatCard(
+            breed = breed,
+            onClick = catBreedSelected,
+            modifier = Modifier.fillMaxWidth()
+          )
+        }
       }
+
+      PullRefreshIndicator(
+        refreshing = refreshing,
+        state = pullRefreshState,
+        modifier = Modifier.align(Alignment.Center)
+      )
     }
   }
 
@@ -131,10 +163,12 @@ private fun CatListScreenPreview() {
               energyLevel = 5,
               image = null
             ),
-          )
+          ),
         ),
+        refreshing = false,
         searchInputUpdated = {},
         catBreedSelected = {},
+        refresh = {},
       )
     }
   }

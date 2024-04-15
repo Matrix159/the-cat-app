@@ -11,14 +11,17 @@ import com.matrix159.thecatapp.core.domain.Result
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.repository.CatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-@OptIn(SavedStateHandleSaveableApi::class)
+@OptIn(SavedStateHandleSaveableApi::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class CatListViewModel @Inject constructor(
   savedStateHandle: SavedStateHandle,
@@ -26,14 +29,24 @@ class CatListViewModel @Inject constructor(
 ) : ViewModel() {
 
   private var searchInput by savedStateHandle.saveable { mutableStateOf("") }
-  private val breedsFlow: Flow<Result<List<Breed>>> = flow {
-    emit(catsRepository.getBreeds())
-  }
+
+  // Refreshing is true by default so that we emit breeds on first load
+  var refreshing by savedStateHandle.saveable { mutableStateOf(true) }
+    private set
+
+  private val breedsFlow: Flow<Result<List<Breed>>> = snapshotFlow { refreshing }
+    .filter { it }
+    .flatMapLatest {
+      flow {
+        emit(catsRepository.getBreeds())
+      }
+    }
 
   val uiState = combine(
     snapshotFlow { searchInput },
     breedsFlow
   ) { searchInput, breedsResult ->
+    refreshing = false
     when (breedsResult) {
       is Result.Success -> {
         val filteredBreeds = if (searchInput.isNotEmpty()) {
@@ -43,8 +56,13 @@ class CatListViewModel @Inject constructor(
         } else {
           breedsResult.data
         }
-        CatListUiState.Success(searchInput, filteredBreeds)
+
+        CatListUiState.Success(
+          searchInput = searchInput,
+          breeds = filteredBreeds
+        )
       }
+
       else -> CatListUiState.Error
     }
   }.stateIn(
@@ -55,6 +73,10 @@ class CatListViewModel @Inject constructor(
 
   fun updateSearchInput(input: String) {
     searchInput = input
+  }
+
+  fun refresh() {
+    refreshing = true
   }
 }
 

@@ -16,10 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import com.matrix159.thecatapp.core.domain.model.Breed
-import com.matrix159.thecatapp.core.ui.R as CommonR
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
+import com.matrix159.thecatapp.core.ui.theme.composable.debugPlaceholder
 import com.matrix159.thecatapp.feature.catbreeds.R
+import com.matrix159.thecatapp.core.ui.R as CommonR
 
 /**
  * A Material3 card displaying a cat breed.
@@ -46,7 +47,7 @@ fun CatCard(
       AsyncImage(
         model = breed.image?.url,
         alignment = Alignment.Center,
-        placeholder = painterResource(id = CommonR.drawable.error_fallback),
+        placeholder = debugPlaceholder(debugPreview = CommonR.drawable.error_fallback),
         error = painterResource(id = CommonR.drawable.error_fallback),
         contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
         contentScale = ContentScale.FillWidth,

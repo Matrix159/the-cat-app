@@ -37,7 +37,9 @@ import com.matrix159.thecatapp.core.ui.R as CommonR
 import com.matrix159.thecatapp.feature.catbreeds.R
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
+import com.matrix159.thecatapp.core.ui.theme.composable.ErrorIndicator
 import com.matrix159.thecatapp.core.ui.theme.composable.LoadingIndicator
+import com.matrix159.thecatapp.core.ui.theme.composable.debugPlaceholder
 
 @Composable
 fun CatDetailsScreen(
@@ -72,7 +74,7 @@ fun CatDetailsScreen(
         }
 
         is CatDetailsUiState.Error -> {
-          Text(stringResource(CommonR.string.error))
+          ErrorIndicator()
         }
 
         is CatDetailsUiState.Loading -> {
@@ -102,8 +104,8 @@ private fun CatDetailsScreen(
     Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
     AsyncImage(
       model = breed.image?.url,
-      placeholder = painterResource(id = CommonR.drawable.error_fallback),
       error = painterResource(id = CommonR.drawable.error_fallback),
+      placeholder = debugPlaceholder(debugPreview = CommonR.drawable.error_fallback),
       contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
       contentScale = ContentScale.FillWidth,
       modifier = Modifier

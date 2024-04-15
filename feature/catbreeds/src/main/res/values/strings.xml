@@ -6,4 +6,5 @@
     <string name="image_of_cat_breed">Image of cat breed %1$s</string>
     <string name="energy_level">⚡ Energy level</string>
     <string name="dog_friendly">🐶 Dog friendly</string>
+    <string name="retry">Retry</string>
 </resources>
