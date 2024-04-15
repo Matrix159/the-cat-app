@@ -13,7 +13,9 @@ import com.matrix159.thecatapp.core.domain.repository.CatsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
@@ -31,9 +33,9 @@ class CatListViewModel @Inject constructor(
   private val searchInputKey = "searchInput"
   private var searchInput = savedStateHandle.getStateFlow(searchInputKey, "")
 
-  private val refreshingKey = "refreshing"
   // Refreshing is true by default so that we emit breeds on first load
-  val refreshing = savedStateHandle.getStateFlow(refreshingKey, true)
+  private val _refreshing = MutableStateFlow(true)
+  val refreshing = _refreshing.asStateFlow()
 
   private val breedsFlow: Flow<Result<List<Breed>>> = refreshing
     .filter { it }
@@ -77,7 +79,7 @@ class CatListViewModel @Inject constructor(
   }
 
   fun setRefreshing(refreshing: Boolean) {
-    savedStateHandle[refreshingKey] = refreshing
+    _refreshing.value = refreshing
   }
 }
 
