@@ -33,13 +33,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.matrix159.thecatapp.core.domain.model.Breed
-import com.matrix159.thecatapp.core.ui.R as CommonR
-import com.matrix159.thecatapp.feature.catbreeds.R
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
 import com.matrix159.thecatapp.core.ui.theme.composable.ErrorIndicator
 import com.matrix159.thecatapp.core.ui.theme.composable.LoadingIndicator
 import com.matrix159.thecatapp.core.ui.theme.composable.debugPlaceholder
+import com.matrix159.thecatapp.feature.catbreeds.R
+import com.matrix159.thecatapp.core.ui.R as CommonR
 
 @Composable
 fun CatDetailsScreen(

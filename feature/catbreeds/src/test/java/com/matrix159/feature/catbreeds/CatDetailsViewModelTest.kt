@@ -3,20 +3,20 @@ package com.matrix159.feature.catbreeds
 import androidx.lifecycle.SavedStateHandle
 import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsUiState
 import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel
-import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
 import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
+import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
+import com.matrix159.thecatapp.core.domain.Result
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
-import com.matrix159.thecatapp.core.domain.Result
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertThrows
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class CatDetailsViewModelTest {

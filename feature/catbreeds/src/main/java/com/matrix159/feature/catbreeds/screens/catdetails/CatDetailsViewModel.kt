@@ -3,10 +3,10 @@ package com.matrix159.feature.catbreeds.screens.catdetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
 import com.matrix159.thecatapp.core.domain.Result
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.repository.CatsRepository
-import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
