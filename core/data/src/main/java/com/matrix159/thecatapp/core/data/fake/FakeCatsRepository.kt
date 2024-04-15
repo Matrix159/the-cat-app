@@ -10,7 +10,7 @@ import com.matrix159.thecatapp.core.domain.repository.CatsRepository
  */
 class FakeCatsRepository : CatsRepository {
   var shouldReturnError = false
-  val breeds = listOf(
+  var breeds = listOf(
     Breed(
       id = "1",
       image = Image("1", 1200, 1000, url = "https://example.com/image.jpg"),
@@ -30,6 +30,10 @@ class FakeCatsRepository : CatsRepository {
       energyLevel = 4,
     ),
   )
+
+  fun addBreed(breed: Breed) {
+    breeds = breeds + breed
+  }
 
   override suspend fun getBreeds(): Result<List<Breed>> {
     return if (shouldReturnError) {

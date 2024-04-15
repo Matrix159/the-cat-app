@@ -42,6 +42,7 @@ fun CatListScreen(
   viewModel: CatListViewModel = hiltViewModel(),
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+  val refreshing by viewModel.refreshing.collectAsStateWithLifecycle()
 
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -51,10 +52,10 @@ fun CatListScreen(
       is CatListUiState.Success -> {
         CatListScreen(
           state = state,
-          refreshing = viewModel.refreshing,
+          refreshing = refreshing,
           searchInputUpdated = viewModel::updateSearchInput,
           catBreedSelected = catBreedSelected,
-          refresh = viewModel::refresh,
+          refresh = { viewModel.setRefreshing(true) },
           modifier = Modifier.fillMaxWidth()
         )
       }
@@ -62,7 +63,7 @@ fun CatListScreen(
       is CatListUiState.Error -> {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
           ErrorIndicator()
-          Button(onClick = viewModel::refresh) {
+          Button(onClick = { viewModel.setRefreshing(true) }) {
             Text(stringResource(R.string.retry))
           }
         }

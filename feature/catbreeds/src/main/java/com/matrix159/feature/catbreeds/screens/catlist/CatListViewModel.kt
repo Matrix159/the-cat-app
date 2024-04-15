@@ -21,20 +21,21 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-@OptIn(SavedStateHandleSaveableApi::class, ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class CatListViewModel @Inject constructor(
-  savedStateHandle: SavedStateHandle,
+  private val savedStateHandle: SavedStateHandle,
   private val catsRepository: CatsRepository
 ) : ViewModel() {
 
-  private var searchInput by savedStateHandle.saveable { mutableStateOf("") }
+  private val searchInputKey = "searchInput"
+  private var searchInput = savedStateHandle.getStateFlow(searchInputKey, "")
 
+  private val refreshingKey = "refreshing"
   // Refreshing is true by default so that we emit breeds on first load
-  var refreshing by savedStateHandle.saveable { mutableStateOf(true) }
-    private set
+  val refreshing = savedStateHandle.getStateFlow(refreshingKey, true)
 
-  private val breedsFlow: Flow<Result<List<Breed>>> = snapshotFlow { refreshing }
+  private val breedsFlow: Flow<Result<List<Breed>>> = refreshing
     .filter { it }
     .flatMapLatest {
       flow {
@@ -43,10 +44,10 @@ class CatListViewModel @Inject constructor(
     }
 
   val uiState = combine(
-    snapshotFlow { searchInput },
+    searchInput,
     breedsFlow
   ) { searchInput, breedsResult ->
-    refreshing = false
+    setRefreshing(false)
     when (breedsResult) {
       is Result.Success -> {
         val filteredBreeds = if (searchInput.isNotEmpty()) {
@@ -72,11 +73,11 @@ class CatListViewModel @Inject constructor(
   )
 
   fun updateSearchInput(input: String) {
-    searchInput = input
+    savedStateHandle[searchInputKey] = input
   }
 
-  fun refresh() {
-    refreshing = true
+  fun setRefreshing(refreshing: Boolean) {
+    savedStateHandle[refreshingKey] = refreshing
   }
 }
 

@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.matrix159.feature.catbreeds.screens.catlist.CatListUiState
 import com.matrix159.feature.catbreeds.screens.catlist.CatListViewModel
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
+import com.matrix159.thecatapp.core.domain.model.Breed
+import com.matrix159.thecatapp.core.domain.model.Image
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -68,6 +70,7 @@ internal class CatListViewModelTest {
     assert((uiState as CatListUiState.Success).searchInput.isEmpty())
     collectJob.cancel()
   }
+
   @Test
   fun `UI State has filled out search input`() = runTest {
     val searchInput = "search"
@@ -86,7 +89,38 @@ internal class CatListViewModelTest {
     val collectJob = launch(UnconfinedTestDispatcher()) { catListViewModel.uiState.collect() }
     val uiState = catListViewModel.uiState.value
     assert(uiState is CatListUiState.Success)
-    assert((uiState as CatListUiState.Success).breeds == fakeCatsRepository.breeds.filter { it.name.contains(searchInput, ignoreCase = true) })
+    assert((uiState as CatListUiState.Success).breeds == fakeCatsRepository.breeds.filter {
+      it.name.contains(
+        searchInput,
+        ignoreCase = true
+      )
+    })
     collectJob.cancel()
   }
+
+  @Test
+  fun `List has different data after refreshing`() = runTest {
+    val collectJob = launch(UnconfinedTestDispatcher()) { catListViewModel.uiState.collect() }
+    val uiState = catListViewModel.uiState.value
+    assert(uiState is CatListUiState.Success)
+    val initialBreeds = (uiState as CatListUiState.Success).breeds
+    fakeCatsRepository.addBreed(
+      Breed(
+        id = "3",
+        childFriendly = 5,
+        description = "some description",
+        dogFriendly = 5,
+        energyLevel = 5,
+        image = Image("3", 1200, 1000, "https://example.com/image.jpg"),
+        name = "Another cat breed breed"
+      )
+    )
+    catListViewModel.setRefreshing(true)
+    val refreshedUiState = catListViewModel.uiState.value
+    assert(refreshedUiState is CatListUiState.Success)
+    val refreshedBreeds = (refreshedUiState as CatListUiState.Success).breeds
+    assert(initialBreeds != refreshedBreeds)
+    collectJob.cancel()
+  }
+
 }
