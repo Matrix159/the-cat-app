@@ -63,7 +63,8 @@ fun CatDetailsScreen(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
         .padding(padding)
-        .consumeWindowInsets(padding),
+        .consumeWindowInsets(padding)
+        .fillMaxWidth(),
     ) {
       when (val state = uiState) {
         is CatDetailsUiState.Success -> {
@@ -168,7 +169,7 @@ private fun StatRow(
           contentDescription = null
         )
       }
-      for (i in value + 1 .. 5) {
+      for (i in value + 1..5) {
         Icon(
           imageVector = Icons.TwoTone.Star,
           tint = MaterialTheme.colorScheme.primary,
