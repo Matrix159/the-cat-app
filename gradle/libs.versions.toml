@@ -8,6 +8,7 @@ coil = "2.6.0"
 compile-sdk = "34"
 compose-bom = "2024.02.02"
 core-ktx = "1.12.0"
+core-library-desugaring = "2.0.4"
 datastore = "1.0.0"
 espresso-core = "3.5.1"
 glanceMaterial3 = "1.0.0"
@@ -21,7 +22,7 @@ kotlinx-date-time = "0.6.0-RC.2"
 ksp = "1.9.22-1.0.17"
 ktor = "2.1.2"
 lifecycle-runtime-ktx = "2.7.0"
-min-sdk = "26"
+min-sdk = "23"
 nav-graph = "2.7.7"
 org-jetbrains-kotlin-android = "1.9.22"
 roomdb = "2.6.1"
@@ -37,6 +38,7 @@ com-google-devtools-ksp-plugin = { group = "com.google.devtools.ksp", name = "sy
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 compose-lifecycleRuntime = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+core-library-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "core-library-desugaring" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

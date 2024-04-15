@@ -23,6 +23,10 @@ android {
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
+
+  compileOptions {
+    isCoreLibraryDesugaringEnabled = true
+  }
 }
 
 dependencies {
@@ -43,6 +47,8 @@ dependencies {
   implementation(libs.ui.tooling.preview)
   // Logging
   implementation(libs.timber)
+
+  coreLibraryDesugaring(libs.core.library.desugaring)
 
 
   testImplementation(libs.junit)
