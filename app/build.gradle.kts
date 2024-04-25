@@ -41,6 +41,7 @@ dependencies {
   implementation(platform(libs.compose.bom))
   implementation(libs.compose.lifecycleRuntime)
   implementation(libs.material3)
+  implementation(libs.androidx.material3.windowSizeClass)
 
   implementation(libs.ui)
   implementation(libs.ui.graphics)

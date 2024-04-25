@@ -3,6 +3,8 @@ package com.matrix159.feature.catbreeds.screens.catlist
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,11 +16,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import coil.compose.AsyncImage
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.ui.theme.CatAppPreviews
 import com.matrix159.thecatapp.core.ui.theme.CatAppTheme
-import com.matrix159.thecatapp.core.ui.theme.composable.debugPlaceholder
 import com.matrix159.thecatapp.feature.catbreeds.R
 import com.matrix159.thecatapp.core.ui.R as CommonR
 
@@ -38,22 +40,33 @@ fun CatCard(
     onClick = { onClick(breed) },
     modifier = modifier
   ) {
-    Column {
+    Column(
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
       Text(
         text = breed.name,
         style = MaterialTheme.typography.titleLarge,
-        modifier = Modifier.padding(dimensionResource(CommonR.dimen.m_padding))
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+          .padding(dimensionResource(CommonR.dimen.m_padding))
+          .fillMaxWidth()
       )
+      val catCardCornerRadius = dimensionResource(R.dimen.cat_card_image_corner_radius)
       AsyncImage(
         model = breed.image?.url,
         alignment = Alignment.Center,
-        placeholder = debugPlaceholder(debugPreview = CommonR.drawable.error_fallback),
+        placeholder = painterResource(id = CommonR.drawable.error_fallback),
         error = painterResource(id = CommonR.drawable.error_fallback),
         contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
-        contentScale = ContentScale.FillWidth,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
-          .fillMaxWidth()
-          .clip(shape = MaterialTheme.shapes.medium)
+          .size(dimensionResource(R.dimen.cat_card_image_size))
+          .clip(
+            shape = RoundedCornerShape(
+              topStart = catCardCornerRadius,
+              topEnd = catCardCornerRadius
+            )
+          )
       )
     }
   }

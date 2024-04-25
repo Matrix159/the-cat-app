@@ -27,6 +27,7 @@ timber = "5.0.1"
 activity-compose = { group = "androidx.activity", name = "activity-compose" }
 androidx-room-gradle-plugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomdb" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-material3-windowSizeClass = { module = "androidx.compose.material3:material3-window-size-class-android" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref= "coil" }
 com-android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 com-google-devtools-ksp-plugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }

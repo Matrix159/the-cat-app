@@ -1,10 +1,7 @@
 plugins {
-  id("android-library-convention")
-  id("hilt-convention")
+  alias(libs.plugins.org.jetbrains.kotlin.jvm)
 }
 
-android {
-  namespace = "com.matrix159.thecatapp.core.domain"
+kotlin {
+  jvmToolchain(17)
 }
-
-dependencies {}

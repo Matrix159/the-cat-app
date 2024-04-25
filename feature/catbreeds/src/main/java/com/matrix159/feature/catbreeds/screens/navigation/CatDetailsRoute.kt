@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsScreen
 
 fun NavGraphBuilder.catDetailsRoute(
+  showTwoPane: Boolean = false,
   navController: NavController
 ) {
   composable(
@@ -19,6 +20,7 @@ fun NavGraphBuilder.catDetailsRoute(
     })
   ) {
     CatDetailsScreen(
+      showTwoPane = showTwoPane,
       navigateBack = navController::popBackStack,
       modifier = Modifier.fillMaxSize()
     )

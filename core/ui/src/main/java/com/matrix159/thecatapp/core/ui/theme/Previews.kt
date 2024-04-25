@@ -16,6 +16,8 @@ annotation class CatAppPreviews
 /**
  * Multipreview annotation that represents various device sizes. Add this annotation to a composable
  * to render various devices.
+ * Used from NowInAndroid:
+ * https://github.com/android/nowinandroid
  */
 @Preview(name = "Phone", device = Devices.PHONE)
 @Preview(name = "Phone - Landscape", device = "spec:width = 411dp, height = 891dp, orientation = landscape, dpi = 420")

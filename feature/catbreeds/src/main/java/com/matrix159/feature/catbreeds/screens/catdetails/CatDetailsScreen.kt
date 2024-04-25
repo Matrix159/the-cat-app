@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -29,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -45,6 +47,7 @@ import com.matrix159.thecatapp.core.ui.R as CommonR
 fun CatDetailsScreen(
   navigateBack: () -> Unit,
   modifier: Modifier = Modifier,
+  showTwoPane: Boolean = false,
   viewModel: CatDetailsViewModel = hiltViewModel(),
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -70,7 +73,10 @@ fun CatDetailsScreen(
         is CatDetailsUiState.Success -> {
           CatDetailsScreen(
             state = state,
-            modifier = modifier.fillMaxWidth()
+            showTwoPane = showTwoPane,
+            modifier = modifier
+              .fillMaxWidth()
+              .padding(dimensionResource(id = CommonR.dimen.m_padding))
           )
         }
 
@@ -89,30 +95,63 @@ fun CatDetailsScreen(
 @Composable
 private fun CatDetailsScreen(
   state: CatDetailsUiState.Success,
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
+  showTwoPane: Boolean = false,
 ) {
   val breed = state.breed
-  Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-    Text(
-      text = breed.name,
-      style = MaterialTheme.typography.headlineLarge
-    )
-    Text(
-      text = breed.description
-    )
-    Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
-    BreedStats(breed = breed)
-    Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
-    AsyncImage(
-      model = breed.image?.url,
-      error = painterResource(id = CommonR.drawable.error_fallback),
-      placeholder = debugPlaceholder(debugPreview = CommonR.drawable.error_fallback),
-      contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
-      contentScale = ContentScale.FillWidth,
-      modifier = Modifier
-        .fillMaxWidth()
-        .clip(MaterialTheme.shapes.small)
-    )
+
+  // TODO: Reduce duplication between two pane and single pane layouts
+  if (showTwoPane) {
+    Row(modifier = modifier) {
+      Column(modifier = Modifier
+        .weight(1f)
+        .verticalScroll(rememberScrollState())
+      ) {
+        Text(
+          text = breed.name,
+          style = MaterialTheme.typography.headlineLarge
+        )
+        Text(
+          text = breed.description
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
+        BreedStats(breed = breed)
+      }
+      Spacer(modifier = Modifier.width(dimensionResource(id = CommonR.dimen.s_padding)))
+      AsyncImage(
+        model = breed.image?.url,
+        error = painterResource(id = CommonR.drawable.error_fallback),
+        placeholder = debugPlaceholder(debugPreview = CommonR.drawable.error_fallback),
+        contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
+        contentScale = ContentScale.Fit,
+        modifier = Modifier
+          .weight(1f)
+          .clip(MaterialTheme.shapes.small)
+      )
+    }
+  } else {
+    Column(
+      modifier = modifier.verticalScroll(rememberScrollState())
+    ) {
+      Text(
+        text = breed.name,
+        style = MaterialTheme.typography.headlineLarge
+      )
+      Text(
+        text = breed.description
+      )
+      Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
+      BreedStats(breed = breed)
+      Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
+      AsyncImage(
+        model = breed.image?.url,
+        error = painterResource(id = CommonR.drawable.error_fallback),
+        placeholder = debugPlaceholder(debugPreview = CommonR.drawable.error_fallback),
+        contentDescription = stringResource(R.string.image_of_cat_breed, breed.name),
+        contentScale = ContentScale.Fit,
+        modifier = Modifier.clip(MaterialTheme.shapes.small)
+      )
+    }
   }
 }
 
