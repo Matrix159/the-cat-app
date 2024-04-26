@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -14,7 +15,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "The Cat App"
-includeBuild("build-logic")
 include(":app")
 include(":core:data")
 include(":core:domain")

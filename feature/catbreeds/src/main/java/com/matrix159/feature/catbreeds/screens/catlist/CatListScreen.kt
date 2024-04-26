@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.matrix159.thecatapp.core.domain.model.Breed
@@ -48,7 +47,6 @@ fun CatListScreen(
   viewModel: CatListViewModel = hiltViewModel(),
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-  val refreshing by viewModel.refreshing.collectAsStateWithLifecycle()
 
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,10 +57,9 @@ fun CatListScreen(
         CatListScreen(
           state = state,
           showAsGrid = showAsGrid,
-          refreshing = refreshing,
           searchInputUpdated = viewModel::updateSearchInput,
           catBreedSelected = catBreedSelected,
-          refresh = { viewModel.setRefreshing(true) },
+          refresh = viewModel::refreshBreeds,
           modifier = Modifier
             .fillMaxWidth()
             .padding(dimensionResource(CommonR.dimen.m_padding))
@@ -72,7 +69,7 @@ fun CatListScreen(
       is CatListUiState.Error -> {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
           ErrorIndicator()
-          Button(onClick = { viewModel.setRefreshing(true) }) {
+          Button(onClick = viewModel::refreshBreeds) {
             Text(stringResource(R.string.retry))
           }
         }
@@ -89,32 +86,32 @@ fun CatListScreen(
 @Composable
 private fun CatListScreen(
   state: CatListUiState.Success,
-  refreshing: Boolean,
   searchInputUpdated: (String) -> Unit,
   catBreedSelected: (Breed) -> Unit,
   refresh: () -> Unit,
   showAsGrid: Boolean = false,
   modifier: Modifier = Modifier,
 ) {
-  Column(
-    verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonR.dimen.m_padding)),
-    modifier = modifier
-  ) {
-    Text(
-      text = stringResource(R.string.cat_breeds),
-      style = MaterialTheme.typography.headlineLarge,
-    )
-    OutlinedTextField(
-      value = state.searchInput,
-      onValueChange = searchInputUpdated,
-      label = { Text(stringResource(R.string.search_by_breed)) },
-      keyboardOptions = KeyboardOptions.Default.copy(
-        imeAction = ImeAction.Done
-      ),
-      modifier = Modifier.fillMaxWidth()
-    )
-    val pullRefreshState = rememberPullRefreshState(refreshing, refresh)
-    Box(Modifier.pullRefresh(pullRefreshState)) {
+  val pullRefreshState = rememberPullRefreshState(state.refreshing, refresh)
+
+  Box(modifier.pullRefresh(pullRefreshState)) {
+    Column(
+      verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonR.dimen.m_padding)),
+    ) {
+      Text(
+        text = stringResource(R.string.cat_breeds),
+        style = MaterialTheme.typography.headlineLarge,
+      )
+      OutlinedTextField(
+        value = state.searchInput,
+        onValueChange = searchInputUpdated,
+        label = { Text(stringResource(R.string.search_by_breed)) },
+        keyboardOptions = KeyboardOptions.Default.copy(
+          imeAction = ImeAction.Done
+        ),
+        modifier = Modifier.fillMaxWidth()
+      )
+
       if (showAsGrid) {
         LazyVerticalGrid(
           columns = GridCells.Adaptive(dimensionResource(R.dimen.cat_card_image_size)),
@@ -143,12 +140,12 @@ private fun CatListScreen(
           }
         }
       }
-      PullRefreshIndicator(
-        refreshing = refreshing,
-        state = pullRefreshState,
-        modifier = Modifier.align(Alignment.TopCenter)
-      )
     }
+    PullRefreshIndicator(
+      refreshing = state.refreshing,
+      state = pullRefreshState,
+      modifier = Modifier.align(Alignment.TopCenter)
+    )
   }
 }
 
@@ -160,6 +157,7 @@ private fun CatListScreenPreview() {
     Surface {
       CatListScreen(
         state = CatListUiState.Success(
+          refreshing = false,
           searchInput = "",
           breeds = listOf(
             Breed(
@@ -191,7 +189,6 @@ private fun CatListScreenPreview() {
             ),
           ),
         ),
-        refreshing = false,
         searchInputUpdated = {},
         catBreedSelected = {},
         refresh = {},

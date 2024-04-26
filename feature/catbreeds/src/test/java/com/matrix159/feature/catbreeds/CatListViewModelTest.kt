@@ -115,7 +115,7 @@ internal class CatListViewModelTest {
         name = "Another cat breed breed"
       )
     )
-    catListViewModel.setRefreshing(true)
+    catListViewModel.refreshBreeds()
     val refreshedUiState = catListViewModel.uiState.value
     assert(refreshedUiState is CatListUiState.Success)
     val refreshedBreeds = (refreshedUiState as CatListUiState.Success).breeds
