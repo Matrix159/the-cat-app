@@ -30,7 +30,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -100,23 +99,13 @@ private fun CatDetailsScreen(
 ) {
   val breed = state.breed
 
-  // TODO: Reduce duplication between two pane and single pane layouts
   if (showTwoPane) {
     Row(modifier = modifier) {
-      Column(modifier = Modifier
-        .weight(1f)
-        .verticalScroll(rememberScrollState())
-      ) {
-        Text(
-          text = breed.name,
-          style = MaterialTheme.typography.headlineLarge
-        )
-        Text(
-          text = breed.description
-        )
-        Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
-        BreedStats(breed = breed)
-      }
+      BreedDetails(
+        breed = breed, modifier = Modifier
+          .weight(1f)
+          .verticalScroll(rememberScrollState())
+      )
       Spacer(modifier = Modifier.width(dimensionResource(id = CommonR.dimen.s_padding)))
       AsyncImage(
         model = breed.image?.url,
@@ -133,15 +122,7 @@ private fun CatDetailsScreen(
     Column(
       modifier = modifier.verticalScroll(rememberScrollState())
     ) {
-      Text(
-        text = breed.name,
-        style = MaterialTheme.typography.headlineLarge
-      )
-      Text(
-        text = breed.description
-      )
-      Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
-      BreedStats(breed = breed)
+      BreedDetails(breed = breed)
       Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
       AsyncImage(
         model = breed.image?.url,
@@ -152,6 +133,29 @@ private fun CatDetailsScreen(
         modifier = Modifier.clip(MaterialTheme.shapes.small)
       )
     }
+  }
+}
+
+/**
+ * Display the full details of the breed.
+ * @param breed The breed to display the details for.
+ * @param modifier The modifier for the details.
+ */
+@Composable
+private fun BreedDetails(
+  breed: Breed,
+  modifier: Modifier = Modifier
+) {
+  Column(modifier) {
+    Text(
+      text = breed.name,
+      style = MaterialTheme.typography.headlineLarge
+    )
+    Text(
+      text = breed.description
+    )
+    Spacer(modifier = Modifier.height(dimensionResource(id = CommonR.dimen.s_padding)))
+    BreedStats(breed = breed)
   }
 }
 

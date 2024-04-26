@@ -3,7 +3,8 @@ package com.matrix159.feature.catbreeds.screens.catdetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
+import com.matrix159.feature.catbreeds.screens.navigation.BREED_ID_ARG
+import com.matrix159.feature.catbreeds.screens.navigation.CatDetailsArgs
 import com.matrix159.thecatapp.core.domain.Result
 import com.matrix159.thecatapp.core.domain.model.Breed
 import com.matrix159.thecatapp.core.domain.repository.CatsRepository
@@ -21,8 +22,8 @@ class CatDetailsViewModel @Inject constructor(
   catsRepository: CatsRepository
 ) : ViewModel() {
 
-  private val breedId =
-    checkNotNull(savedStateHandle.get<String>(CatBreedNavigationRoutes.CatDetailsScreen.BREED_ID))
+  private val catDetailsArgs: CatDetailsArgs = CatDetailsArgs(savedStateHandle)
+  private val breedId = catDetailsArgs.breedId
 
   private val breedDetailsFlow: Flow<Result<Breed>> = flow {
     emit(catsRepository.getBreedById(breedId))

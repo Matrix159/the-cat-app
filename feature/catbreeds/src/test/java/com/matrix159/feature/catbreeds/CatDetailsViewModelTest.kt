@@ -3,7 +3,7 @@ package com.matrix159.feature.catbreeds
 import androidx.lifecycle.SavedStateHandle
 import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsUiState
 import com.matrix159.feature.catbreeds.screens.catdetails.CatDetailsViewModel
-import com.matrix159.feature.catbreeds.screens.navigation.CatBreedNavigationRoutes
+import com.matrix159.feature.catbreeds.screens.navigation.BREED_ID_ARG
 import com.matrix159.thecatapp.core.data.fake.FakeCatsRepository
 import com.matrix159.thecatapp.core.domain.Result
 import junit.framework.TestCase.assertEquals
@@ -26,7 +26,7 @@ internal class CatDetailsViewModelTest {
 
   private val fakeCatsRepository = FakeCatsRepository()
   private val breedId = fakeCatsRepository.breeds.first().id
-  private val savedStateHandle = SavedStateHandle(mapOf(CatBreedNavigationRoutes.CatDetailsScreen.BREED_ID to breedId))
+  private val savedStateHandle = SavedStateHandle(mapOf(BREED_ID_ARG to breedId))
   private lateinit var viewModel: CatDetailsViewModel
 
   @Before
